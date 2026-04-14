@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Mock Test Platform</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <section class="login-page" id="login-page">
+        <div class="login-card">
+            <h2>Student Login</h2>
+            <p>Please enter your name to begin the mock test and save your progress.</p>
+            <input id="username-input" type="text" placeholder="Enter your name" autocomplete="name">
+            <div class="login-actions">
+                <button class="save-btn" onclick="loginUser()">Continue</button>
+            </div>
+            <p class="login-error" id="login-error"></p>
+        </div>
+    </section>
+
+    <section class="welcome-page hidden" id="welcome-page">
+    <div class="flower flower-1">🌸</div>
+    <div class="flower flower-2">💕</div>
+    <div class="flower flower-3">😘</div>
+    <div class="flower flower-4">🫂</div>
+
+    <div class="welcome-card">
+        <div class="welcome-content">
+            <p class="soft-hello">Hello, Radha</p>
+            <h1>A Space Created Just for You</h1>
+            
+            <div class="letter-body">
+                <p>This is a <strong>special test</strong>, prepared with a lot of care and specifically for you. It’s more than just a mock—it’s a chance to see your hard work come to life.</p>
+                
+                <p class="instruction">For the next <strong>3 hours</strong>, I ask for your focus. No distractions, no noise. Just you and your brilliant mind.</p>
+                
+                <p>Please approach this with a humble heart. I truly hope you love the challenge as much as I loved setting it up for you.</p>
+            </div>
+
+            <button class="start-btn" onclick="startTest()">Begin Your Journey</button>
+            
+            <p class="final-wish">Wishing you all the very best.</p>
+        </div>
+    </div>
+</section>
+
+    <header class="hidden">
+        <div class="logo">Radha Test</div>
+        <div id="timer">03:00:00</div>
+        <button class="end-btn">End Test</button>
+    </header>
+
+    <main class="hidden">
+        <section class="question-container">
+            <div class="question-header">
+                <h2 id="q-number">Question 1</h2>
+                <div id="section-label">Section: Physics</div>
+            </div>
+            <div class="image-box">
+                <img id="question-img" src="" alt="Question Image">
+                <img id="question-img-sub" class="subpart hidden" src="" alt="Question Subpart">
+            </div>
+
+            <div class="options-container">
+                <button class="opt-btn" onclick="selectOption('A')">A</button>
+                <button class="opt-btn" onclick="selectOption('B')">B</button>
+                <button class="opt-btn" onclick="selectOption('C')">C</button>
+                <button class="opt-btn" onclick="selectOption('D')">D</button>
+            </div>
+
+            <div class="nav-controls">
+                <button onclick="prevQ()">Previous</button>
+                <button class="review-btn" id="mark-review" onclick="toggleReview()">Mark for Review</button>
+                <button class="save-btn" onclick="nextQ()">Save & Next</button>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <h3>Instant Analysis</h3>
+            <div class="analysis-panel" id="analysis-panel">
+                <div class="analysis-row"><span>Attempted</span><span id="answered-count">0</span></div>
+                <div class="analysis-row"><span>Marked Review</span><span id="review-count">0</span></div>
+                <div class="analysis-row"><span>Unanswered</span><span id="unanswered-count">180</span></div>
+                <div class="analysis-row"><span>Current Section</span><span id="section-progress">Physics 0/45</span></div>
+                <div class="analysis-row"><span>Physics</span><span id="physics-progress">0/45</span></div>
+                <div class="analysis-row"><span>Chemistry</span><span id="chemistry-progress">0/45</span></div>
+                <div class="analysis-row"><span>Biology</span><span id="biology-progress">0/90</span></div>
+            </div>
+
+            <h3>Question Palette</h3>
+            <div class="grid" id="q-grid"></div>
+        </aside>
+    </main>
+
+    <section class="results-page hidden" id="results-page">
+        <div class="results-card">
+            <div class="results-top">
+                <div>
+                    <h2>Final Test Summary</h2>
+                    <p class="results-summary-text" id="results-header-text">A clean overview of your performance, with section-wise accuracy and review guidance.</p>
+                </div>
+                <button class="restart-btn" onclick="restartTest()">Retake Test</button>
+            </div>
+
+            <div class="results-main">
+                <aside class="results-sidebar">
+                    <div class="metric-block">
+                        <div class="metric-label">Total Marks</div>
+                        <strong id="result-score">Not available</strong>
+                    </div>
+                    <div class="mini-grid">
+                        <div class="mini-card">
+                            <span>Attempted</span>
+                            <strong id="result-attempted">0</strong>
+                        </div>
+                        <div class="mini-card">
+                            <span>Review</span>
+                            <strong id="result-review">0</strong>
+                        </div>
+                        <div class="mini-card">
+                            <span>Unanswered</span>
+                            <strong id="result-unanswered">180</strong>
+                        </div>
+                    </div>
+                    <div class="chart-panel" id="result-chart"></div>
+                </aside>
+
+                <section class="results-body">
+                    <div class="score-details" id="result-details"></div>
+                    <div class="section-summary" id="section-summary"></div>
+                    <div class="section-breakdown" id="section-breakdown"></div>
+                    <div class="question-breakdown" id="question-breakdown"></div>
+                    <div class="breakdown-card">
+                        <h4>Saved Test History</h4>
+                        <div id="saved-attempts" class="saved-attempts"></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="result-notes" id="result-notes"></div>
+            <div class="cloud-status" id="cloud-status">Cloud save not configured.</div>
+            <div class="results-actions">
+                <button class="save-btn" onclick="downloadAnswers()">Download Answers</button>
+                <button class="save-btn" onclick="downloadRecordedTest()">Download Test Record</button>
+                <button class="review-btn" onclick="restartTest()">Restart Test</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
