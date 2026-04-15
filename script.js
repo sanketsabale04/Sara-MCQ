@@ -12,42 +12,185 @@ const sections = [
 ];
 
 const answerKey = {
-    1: 'D',
-    2: 'D',
-    3: 'B',
-    4: 'A',
-    5: 'B',
-    6: 'C',
-    7: 'B',
-    8: 'B',
-    9: 'B',
-    10: 'A',
-    11: 'B',
-    12: 'C',
-    13: 'D',
-    14: 'C',
-    15: 'A',
-    16: 'A',
-    17: 'B',
-    18: 'B',
-    19: 'C',
-    20: 'B',
-    21: 'B',
-    22: 'B',
-    23: 'D',
-    24: 'B',
-    25: 'B',
-    26: 'C',
-    27: 'A',
-    28: 'D',
-    29: 'C',
-    30: 'A',
-    31: 'B',
-    32: 'D',
-    33: 'A',
-    34: 'B',
-    35: 'D',
-    175: 'D'
+    2: "D",
+    3: "B",
+    4: "A",
+    5: "B",
+    6: "C",
+    7: "B",
+    8: "B",
+    9: "B",
+    10: "A",
+    11: "B",
+    12: "C",
+    13: "D",
+    14: "C",
+    15: "A",
+    16: "A",
+    17: "B",
+    18: "B",
+    19: "C",
+    20: "B",
+    21: "B",
+    22: "B",
+    23: "D",
+    24: "B",
+    25: "B",
+    26: "C",
+    27: "A",
+    28: "D",
+    29: "C",
+    30: "A",
+    31: "B",
+    32: "D",
+    33: "A",
+    34: "B",
+    35: "D",
+    36: "D",
+    37: "B",
+    38: "D",
+    39: "C",
+    40: "D",
+    41: "B",
+    42: "A",
+    43: "A",
+    44: "A",
+    45: "D",
+    46: "B",
+    47: "B",
+    48: "A",
+    49: "A",
+    50: "B",
+    51: "A",
+    52: "B",
+    53: "C",
+    54: "A",
+    55: "A",
+    56: "A",
+    57: "C",
+    58: "B",
+    59: "C",
+    60: "C",
+    61: "B",
+    62: "D",
+    63: "D",
+    64: "D",
+    65: "D",
+    66: "D",
+    67: "D",
+    68: "D",
+    69: "B",
+    70: "B",
+    71: "C",
+    72: "B",
+    73: "D",
+    74: "D",
+    75: "C",
+    76: "A",
+    77: "C",
+    78: "B",
+    79: "C",
+    80: "C",
+    81: "D",
+    82: "A",
+    83: "A",
+    84: "C",
+    85: "D",
+    86: "A",
+    87: "B",
+    88: "A",
+    89: "A",
+    90: "B",
+    91: "C",
+    92: "D",
+    93: "C",
+    94: "C",
+    95: "D",
+    96: "A",
+    97: "D",
+    98: "D",
+    99: "A",
+    100: "D",
+    101: "A",
+    102: "C",
+    103: "A",
+    104: "B",
+    105: "B",
+    106: "C",
+    107: "C",
+    108: "C",
+    109: "D",
+    110: "C",
+    111: "C",
+    112: "C",
+    113: "B",
+    114: "B",
+    115: "B",
+    116: "B",
+    117: "D",
+    118: "B",
+    119: "D",
+    120: "B",
+    121: "B",
+    122: "A",
+    123: "C",
+    124: "D",
+    125: "D",
+    126: "A",
+    127: "B",
+    128: "B",
+    129: "C",
+    130: "C",
+    131: "D",
+    132: "C",
+    133: "C",
+    134: "A",
+    135: "D",
+    136: "C",
+    137: "A",
+    138: "C",
+    139: "D",
+    140: "B",
+    141: "D",
+    142: "B",
+    143: "B",
+    144: "C",
+    145: "B",
+    146: "B",
+    147: "C",
+    148: "B",
+    149: "B",
+    150: "C",
+    151: "B",
+    152: "A",
+    153: "A",
+    154: "B",
+    155: "B",
+    156: "D",
+    157: "D",
+    158: "C",
+    159: "A",
+    160: "B",
+    161: "C",
+    162: "C",
+    163: "D",
+    164: "B",
+    165: "D",
+    166: "B",
+    167: "C",
+    168: "D",
+    169: "C",
+    170: "D",
+    171: "B",
+    172: "B",
+    173: "C",
+    174: "C",
+    175: "D",
+    176: "D",
+    177: "B",
+    178: "D",
+    179: "C",
+    180: "D",
 };
 
 const STORAGE_KEY = 'mocktest:state:v1';
@@ -88,6 +231,14 @@ function getSavedUser() {
 function saveCurrentUser(name) {
     try {
         localStorage.setItem(USER_STORAGE_KEY, name);
+    } catch (err) {
+        // ignore storage errors
+    }
+}
+
+function clearSavedUser() {
+    try {
+        localStorage.removeItem(USER_STORAGE_KEY);
     } catch (err) {
         // ignore storage errors
     }
@@ -175,6 +326,18 @@ function saveState(submitted = false) {
 
 function clearSavedState() {
     localStorage.removeItem(STORAGE_KEY);
+}
+
+function updateStartButtonLabel() {
+    const startBtn = document.querySelector('.start-btn');
+    if (!startBtn) return;
+    if (wasSubmitted) {
+        startBtn.innerText = 'View Results';
+    } else if (startedAt !== null) {
+        startBtn.innerText = 'Continue Test';
+    } else {
+        startBtn.innerText = 'Begin Your Journey';
+    }
 }
 
 function loadSavedState() {
@@ -611,21 +774,33 @@ function loginUser() {
     }
 
     errorEl.innerText = '';
-    currentUser = username;
-    saveCurrentUser(currentUser);
+    const previousUser = getSavedUser();
+    const savedState = getSavedState();
+    const hasMatchingSession = previousUser === username && savedState && savedState.submitted !== true;
 
-    // Reset any previous saved session and start fresh for this login
-    wasSubmitted = false;
-    currentQ = 1;
-    timeLeft = 3 * 60 * 60;
-    userAnswers = {};
-    reviewStatus = {};
-    startedAt = null;
-    submittedAt = null;
-    clearSavedState();
-    saveState(false);
+    if (hasMatchingSession) {
+        currentUser = username;
+        saveCurrentUser(currentUser);
+        loadSavedState();
+        wasSubmitted = false;
+    } else {
+        currentUser = username;
+        saveCurrentUser(currentUser);
+
+        // Reset any previous saved session and start fresh for this login
+        wasSubmitted = false;
+        currentQ = 1;
+        timeLeft = 3 * 60 * 60;
+        userAnswers = {};
+        reviewStatus = {};
+        startedAt = null;
+        submittedAt = null;
+        clearSavedState();
+        saveState(false);
+    }
 
     renderWelcomeUser();
+    updateStartButtonLabel();
     document.getElementById('login-page')?.classList.add('hidden');
     document.getElementById('welcome-page')?.classList.remove('hidden');
 }
@@ -721,6 +896,30 @@ function restartTest() {
     window.location.reload();
 }
 
+function logoutUser() {
+    if (!confirm('Logout and start a new session?')) return;
+    clearInterval(timerInterval);
+    clearSavedState();
+    clearSavedUser();
+    currentUser = null;
+    currentQ = 1;
+    timeLeft = 3 * 60 * 60;
+    userAnswers = {};
+    reviewStatus = {};
+    startedAt = null;
+    submittedAt = null;
+    wasSubmitted = false;
+
+    document.getElementById('login-page')?.classList.remove('hidden');
+    document.getElementById('welcome-page')?.classList.add('hidden');
+    document.querySelector('header')?.classList.add('hidden');
+    document.querySelector('main')?.classList.add('hidden');
+    document.getElementById('results-page')?.classList.add('hidden');
+
+    const usernameInput = document.getElementById('username-input');
+    if (usernameInput) usernameInput.value = '';
+}
+
 function saveTestToCloud(record) {
     const statusEl = document.getElementById('cloud-status');
     if (!db) {
@@ -784,11 +983,28 @@ function nextQ() { if (currentQ < totalQ) loadQuestion(currentQ + 1); }
 function prevQ() { if (currentQ > 1) loadQuestion(currentQ - 1); }
 
 function initApp() {
+    const savedUser = getSavedUser();
     wasSubmitted = loadSavedState();
-    // Always require fresh login before starting a new session
-    currentUser = null;
-    document.getElementById('login-page')?.classList.remove('hidden');
-    document.getElementById('welcome-page')?.classList.add('hidden');
+    if (!currentUser) currentUser = savedUser || null;
+
+    const loginPage = document.getElementById('login-page');
+    const welcomePage = document.getElementById('welcome-page');
+
+    if (currentUser) {
+        if (loginPage) loginPage.classList.add('hidden');
+        if (welcomePage) welcomePage.classList.remove('hidden');
+        renderWelcomeUser();
+        updateStartButtonLabel();
+
+        if (wasSubmitted) {
+            populateResults();
+            showResultsPage();
+        }
+    } else {
+        if (loginPage) loginPage.classList.remove('hidden');
+        if (welcomePage) welcomePage.classList.add('hidden');
+    }
+
     document.querySelector('header')?.classList.add('hidden');
     document.querySelector('main')?.classList.add('hidden');
     document.getElementById('results-page')?.classList.add('hidden');
