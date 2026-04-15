@@ -128,6 +128,22 @@ header {
     border-bottom: 1px solid #e2e8f0;
 }
 
+header .header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.logout-btn {
+    background: #2563eb;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    border: none;
+}
+
 .logo {
     font-size: 1.3rem;
     font-weight: 800;
@@ -243,7 +259,8 @@ main {
 .opt-btn:hover,
 .save-btn:hover,
 .review-btn:hover,
-.end-btn:hover {
+.end-btn:hover,
+.logout-btn:hover {
     transform: translateY(-1px);
 }
 
